@@ -19,6 +19,7 @@ use subxt_metadata::PalletMetadata;
 pub use crate::blocks::StaticExtrinsic;
 
 /// The body of a block.
+#[derive(Debug, Clone)]
 pub struct Extrinsics<T: Config> {
     extrinsics: Vec<Arc<(Extrinsic<'static, u32>, Vec<u8>)>>,
     metadata: Metadata,

@@ -20,6 +20,8 @@ pub use subxt_core::blocks::{
 };
 
 /// The body of a block.
+/// 
+#[derive(Clone)]
 pub struct Extrinsics<T: Config, C> {
     inner: CoreExtrinsics<T>,
     client: C,
