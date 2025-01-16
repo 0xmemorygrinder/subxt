@@ -266,7 +266,7 @@ pub struct FoundExtrinsic<T: Config, C, E> {
 }
 
 /// The events associated with a given extrinsic.
-#[derive_where(Debug, Clone)]
+#[derive(Debug, Clone)]
 pub struct ExtrinsicEvents<T: Config> {
     // The hash of the extrinsic (handy to expose here because
     // this type is returned from TxProgress things in the most
