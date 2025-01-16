@@ -129,6 +129,7 @@ impl<T: Config> Extrinsics<T> {
 }
 
 /// A single extrinsic in a block.
+#[derive(Debug, Clone)]
 pub struct ExtrinsicDetails<T: Config> {
     /// The index of the extrinsic in the block.
     index: u32,
