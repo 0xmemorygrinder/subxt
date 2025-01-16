@@ -123,6 +123,7 @@ where
 }
 
 /// A single extrinsic in a block.
+#[derive(Clone, Debug)]
 pub struct ExtrinsicDetails<T: Config, C> {
     inner: CoreExtrinsicDetails<T>,
     /// The block hash of this extrinsic (needed to fetch events).
