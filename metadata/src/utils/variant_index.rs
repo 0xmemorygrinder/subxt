@@ -4,8 +4,9 @@
 
 use alloc::borrow::ToOwned;
 use alloc::string::String;
-use hashbrown::HashMap;
+use std::collections::HashMap;
 use scale_info::{form::PortableForm, PortableRegistry, TypeDef, Variant};
+use serde::{Deserialize, Serialize};
 
 /// Given some type ID and type registry, build a couple of
 /// indexes to look up variants by index or name. If the ID provided
@@ -13,7 +14,7 @@ use scale_info::{form::PortableForm, PortableRegistry, TypeDef, Variant};
 ///
 /// API optimized for dealing with the `Option<u32>` variant type IDs
 /// that we get in metadata pallets.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VariantIndex {
     by_name: HashMap<String, usize>,
     by_index: HashMap<u8, usize>,

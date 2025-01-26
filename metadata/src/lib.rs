@@ -14,7 +14,6 @@
 //! 2. Obtaining [`frame_metadata::RuntimeMetadataPrefixed`], and then
 //!    using `.try_into()` to convert it into [`Metadata`].
 
-#![cfg_attr(not(feature = "std"), no_std)]
 #![deny(missing_docs)]
 
 extern crate alloc;
@@ -30,8 +29,9 @@ use frame_decode::extrinsics::{
     ExtrinsicCallInfo, ExtrinsicExtensionInfo, ExtrinsicInfoArg, ExtrinsicInfoError,
     ExtrinsicSignatureInfo,
 };
-use hashbrown::HashMap;
+use std::collections::HashMap;
 use scale_info::{form::PortableForm, PortableRegistry, Variant};
+use serde::{Deserialize, Serialize};
 use utils::variant_index::VariantIndex;
 use utils::{ordered_map::OrderedMap, validation::outer_enum_hashes::OuterEnumHashes};
 
@@ -44,7 +44,7 @@ pub use utils::validation::MetadataHasher;
 /// Node metadata. This can be constructed by providing some compatible [`frame_metadata`]
 /// which is then decoded into this. We aim to preserve all of the existing information in
 /// the incoming metadata while optimizing the format a little for Subxt's use cases.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Metadata {
     /// Type registry containing all types used in the metadata.
     types: PortableRegistry,
@@ -378,7 +378,7 @@ impl<'a> PalletMetadata<'a> {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 struct PalletMetadataInner {
     /// Pallet name.
     name: ArcStr,
@@ -405,7 +405,7 @@ struct PalletMetadataInner {
 }
 
 /// Metadata for the storage entries in a pallet.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StorageMetadata {
     /// The common prefix used by all storage entries.
     prefix: String,
@@ -431,7 +431,7 @@ impl StorageMetadata {
 }
 
 /// Metadata for a single storage entry.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StorageEntryMetadata {
     /// Variable name of the storage entry.
     name: ArcStr,
@@ -469,7 +469,7 @@ impl StorageEntryMetadata {
 }
 
 /// The type of a storage entry.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum StorageEntryType {
     /// Plain storage entry (just the value).
     Plain(u32),
@@ -502,7 +502,7 @@ impl StorageEntryType {
 }
 
 /// Hasher used by storage maps.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum StorageHasher {
     /// 128-bit Blake2 hash.
     Blake2_128,
@@ -550,7 +550,7 @@ impl StorageHasher {
 }
 
 /// Is the storage entry optional, or does it have a default value.
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Serialize, Deserialize)]
 pub enum StorageEntryModifier {
     /// The storage entry returns an `Option<T>`, with `None` if the key is not present.
     Optional,
@@ -559,7 +559,7 @@ pub enum StorageEntryModifier {
 }
 
 /// Metadata for a single constant.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ConstantMetadata {
     /// Name of the pallet constant.
     name: ArcStr,
@@ -591,7 +591,7 @@ impl ConstantMetadata {
 }
 
 /// Metadata for the extrinsic type.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExtrinsicMetadata {
     /// The type of the address that signs the extrinsic
     address_ty: u32,
@@ -638,7 +638,7 @@ impl ExtrinsicMetadata {
 }
 
 /// Metadata for the signed extensions used by extrinsics.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignedExtensionMetadata {
     /// The unique signed extension identifier, which may be different from the type name.
     identifier: String,
@@ -664,7 +664,7 @@ impl SignedExtensionMetadata {
 }
 
 /// Metadata for the outer enums.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct OuterEnumsMetadata {
     /// The type of the outer call enum.
     call_enum_ty: u32,
@@ -726,7 +726,7 @@ impl<'a> RuntimeApiMetadata<'a> {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 struct RuntimeApiMetadataInner {
     /// Trait name.
     name: ArcStr,
@@ -737,7 +737,7 @@ struct RuntimeApiMetadataInner {
 }
 
 /// Metadata for a single runtime API method.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RuntimeApiMethodMetadata {
     /// Method name.
     name: ArcStr,
@@ -769,7 +769,7 @@ impl RuntimeApiMethodMetadata {
 }
 
 /// Metadata for a single input parameter to a runtime API method.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RuntimeApiMethodParamMetadata {
     /// Parameter name.
     pub name: String,
