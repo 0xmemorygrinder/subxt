@@ -1,20 +1,23 @@
 // Copyright 2019-2023 Parity Technologies (UK) Ltd.
 // This file is dual-licensed as Apache-2.0 or GPL-3.0.
 // see LICENSE for license details.
+#![cfg(feature = "std")]
 
 use alloc::vec::Vec;
+use polkadot_sdk::sp_runtime::{Deserialize, Serialize};
 use core::mem;
-use hashbrown::HashMap;
+use std::hash::Hash;
+use std::collections::HashMap;
 
 /// A minimal ordered map to let one search for
 /// things by key or get the values in insert order.
-#[derive(Debug, Clone)]
-pub struct OrderedMap<K, V> {
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OrderedMap<K: Eq + Hash, V> {
     values: Vec<V>,
     map: HashMap<K, usize>,
 }
 
-impl<K, V> Default for OrderedMap<K, V> {
+impl<K: Serialize + Eq + Hash, V> Default for OrderedMap<K, V> {
     fn default() -> Self {
         Self {
             values: Default::default(),
@@ -23,7 +26,7 @@ impl<K, V> Default for OrderedMap<K, V> {
     }
 }
 
-impl<K, V> OrderedMap<K, V>
+impl<K: Serialize + Eq + Hash, V> OrderedMap<K, V>
 where
     K: PartialEq + Eq + core::hash::Hash,
 {
@@ -107,7 +110,7 @@ where
     }
 }
 
-impl<K, V> FromIterator<(K, V)> for OrderedMap<K, V>
+impl<K: Serialize + Eq + Hash, V> FromIterator<(K, V)> for OrderedMap<K, V>
 where
     K: PartialEq + Eq + core::hash::Hash,
 {

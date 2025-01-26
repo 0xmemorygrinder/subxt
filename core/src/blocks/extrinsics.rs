@@ -15,6 +15,7 @@ use core::ops::Deref;
 use frame_decode::extrinsics::Extrinsic;
 use scale_decode::DecodeAsType;
 use subxt_metadata::PalletMetadata;
+use serde::{Serialize, Deserialize};
 
 pub use crate::blocks::StaticExtrinsic;
 

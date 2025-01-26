@@ -10717,6 +10717,7 @@ dependencies = [
  "parity-scale-codec",
  "polkadot-sdk",
  "scale-info",
+ "serde",
  "thiserror 2.0.0",
 ]
 

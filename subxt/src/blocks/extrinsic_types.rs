@@ -12,6 +12,7 @@ use crate::{
 
 use derive_where::derive_where;
 use scale_decode::DecodeAsType;
+use serde::{Deserialize, Serialize};
 use subxt_core::blocks::{ExtrinsicDetails as CoreExtrinsicDetails, Extrinsics as CoreExtrinsics};
 
 // Re-export anything that's directly returned/used in the APIs below.
@@ -267,7 +268,7 @@ pub struct FoundExtrinsic<T: Config, C, E> {
 }
 
 /// The events associated with a given extrinsic.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExtrinsicEvents<T: Config> {
     // The hash of the extrinsic (handy to expose here because
     // this type is returned from TxProgress things in the most

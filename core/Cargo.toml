@@ -41,7 +41,7 @@ frame-metadata = { workspace = true, default-features = false }
 subxt-metadata = { workspace = true, default-features = false }
 derive-where = { workspace = true }
 hex = { workspace = true, default-features = false, features = ["alloc"] }
-serde = { workspace = true, default-features = false, features = ["derive"] }
+serde = { workspace = true, default-features = false, features = ["derive", "rc"] }
 serde_json = { workspace = true, default-features = false, features = ["raw_value", "alloc"] }
 tracing = { workspace = true, default-features = false }
 polkadot-sdk = { workspace = true, features = ["sp-crypto-hashing"] }
