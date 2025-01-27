@@ -15,10 +15,12 @@ use core::ops::Deref;
 use frame_decode::extrinsics::Extrinsic;
 use scale_decode::DecodeAsType;
 use subxt_metadata::PalletMetadata;
+use serde::{Serialize, Deserialize};
 
 pub use crate::blocks::StaticExtrinsic;
 
 /// The body of a block.
+#[derive(Debug, Clone)]
 pub struct Extrinsics<T: Config> {
     extrinsics: Vec<Arc<(Extrinsic<'static, u32>, Vec<u8>)>>,
     metadata: Metadata,
@@ -128,6 +130,7 @@ impl<T: Config> Extrinsics<T> {
 }
 
 /// A single extrinsic in a block.
+#[derive(Debug, Clone)]
 pub struct ExtrinsicDetails<T: Config> {
     /// The index of the extrinsic in the block.
     index: u32,
